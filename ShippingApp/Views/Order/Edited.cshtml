@@ -6,4 +6,4 @@
 
 @model ShippingApp.Models.OrderModel
 
-<p>Order "@Model.Description" has been created <a href="/order">Go Back</a></p>
+<p>Order ID <a href=@string.Format("/Order/o/{0}", @Model.OrderId)>@Model.OrderId</a> has been edited. <a href="/Order">Go back</a></p>

@@ -6,6 +6,9 @@ namespace ShippingApp.Controllers
 {
     public class OrderController : Controller
     {
+        /// <summary>
+        /// Injected order service
+        /// </summary>
         OrderService _orderService;
 
         public OrderController(OrderService orderService)
@@ -13,25 +16,33 @@ namespace ShippingApp.Controllers
             _orderService = orderService;
         }
 
+        /// <summary>
+        /// /order root
+        /// </summary>
+        /// <returns>View displaying Order page</returns>
         [Route("Order/")]
         public IActionResult Index()
         {
-            var Order = new OrderModel();
-            Order.OrderId = 1;
-            Order.IsComplete = false;
-            Order.Description = "Ship 20KG of goods";
-
             return View();
         }
 
-        [Route("Order/order/{id}")]
+
+        /// <summary>
+        /// Display a single order based on ID
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns>View showing order based on ID</returns>
+        [Route("Order/o/{id}")]
         public IActionResult DisplayOne(long Id)
         {
-            var Order = _orderService.FindById(Id);
-
-            
+            var Order = _orderService.GetOrderById(Id);
             return View("Order", Order);
         }
+
+        /// <summary>
+        /// Page to create a new order
+        /// </summary>
+        /// <returns>View with order creation form</returns>
         [Route("Order/new")]
         public IActionResult New()
         {
@@ -39,23 +50,55 @@ namespace ShippingApp.Controllers
             return View("New", Order);
         }
 
+        /// <summary>
+        /// Action to create order and display a success page
+        /// </summary>
+        /// <param name="Order"></param>
+        /// <returns>View with success page</returns>
         [Route("Order/create")]
         public IActionResult Create(OrderModel Order)
         {
             long OrderId = _orderService.Create(Order);
+            var newOrder = _orderService.GetOrderById(OrderId);
 
-            Console.WriteLine("Created");
-
-            return RedirectToAction("Index");
+            return View("Created", newOrder);
             
         }
 
-        [Route("Order/sanity")]
-        public IActionResult sanity()
+        /// <summary>
+        /// Display all orders
+        /// </summary>
+        /// <returns>View with all orders</returns>
+        [Route("Order/all")]
+        public IActionResult AllOrders()
         {
-            ViewBag.message = _orderService.Sanity();
-            return View("Sanity");
-            
+            IEnumerable<OrderModel> orders = _orderService.GetAllOrders();
+            return View("All", orders);
+        }
+
+        [Route("Order/delete/{id}")]
+        public IActionResult DeleteOrder(long Id)
+        {
+            var order = _orderService.GetOrderById(Id);
+
+            _orderService.DeleteOrderById(Id);
+
+            return View("Deleted", order);
+        }
+
+        [Route("Order/editor/{id}")]
+        public IActionResult OrderEditor(long Id)
+        {
+            var order = _orderService.GetOrderById(Id);
+            return View("Editor", order);
+        }
+
+        [Route("Order/edit/{id}")]
+        public IActionResult EditOrder(long Id, OrderModel Order)
+        {
+            _orderService.UpdateOrderById(Id, Order);
+
+            return View("Edited", Order);
         }
     }
 }

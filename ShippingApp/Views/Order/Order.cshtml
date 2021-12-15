@@ -8,3 +8,14 @@
 
 <h1>@Model.OrderId</h1>
 <p>@Model.Description</p>
+<p>
+    <a href=@string.Format("/Order/editor/{0}", @Model.OrderId)>
+        Edit
+    </a>
+</p>
+
+<p>
+    <a href=@string.Format("/Order/delete/{0}", @Model.OrderId)>
+        Delete
+    </a>
+</p>

@@ -6,4 +6,4 @@
 
 @model ShippingApp.Models.OrderModel
 
-<p>Order "@Model.Description" has been created <a href="/order">Go Back</a></p>
+<p>Your order @string.Format("{0}", @Model.Description) has been deleted. <a href="/order">Go back</a></p>
