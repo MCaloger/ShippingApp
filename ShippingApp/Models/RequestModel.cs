@@ -2,6 +2,7 @@
 {
     public class RequestModel
     {
+        [System.ComponentModel.DataAnnotations.Key]
         public long RequestId { get; set; }
         public RequestTypeModel RequestType { get; set; }
         public string details { get; set; }

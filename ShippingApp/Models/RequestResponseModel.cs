@@ -2,6 +2,7 @@
 {
     public class RequestResponseModel
     {
+        [System.ComponentModel.DataAnnotations.Key]
         public long RequestResponseId { get; set; }
         public RequestModel Request { get; set; }
         public UserModel Responder { get; set; }
