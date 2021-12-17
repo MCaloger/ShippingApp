@@ -9,9 +9,9 @@ namespace ShippingApp.Controllers
         /// <summary>
         /// Injected order service
         /// </summary>
-        OrderService _orderService;
+        IOrderService _orderService;
 
-        public OrderController(OrderService orderService)
+        public OrderController(IOrderService orderService)
         {
             _orderService = orderService;
         }
@@ -23,7 +23,7 @@ namespace ShippingApp.Controllers
         [Route("Order/")]
         public IActionResult Index()
         {
-            return View();
+            return View("Index");
         }
 
 
@@ -35,7 +35,7 @@ namespace ShippingApp.Controllers
         [Route("Order/o/{id}")]
         public IActionResult DisplayOne(long Id)
         {
-            var Order = _orderService.GetOrderById(Id);
+            var Order = _orderService.ReadOne(Id);
             return View("Order", Order);
         }
 
@@ -58,8 +58,8 @@ namespace ShippingApp.Controllers
         [Route("Order/create")]
         public IActionResult Create(OrderModel Order)
         {
-            long OrderId = _orderService.Create(Order);
-            var newOrder = _orderService.GetOrderById(OrderId);
+            OrderModel NewOrder = _orderService.Create(Order);
+            var newOrder = _orderService.ReadOne(NewOrder.OrderId);
 
             return View("Created", newOrder);
             
@@ -72,16 +72,16 @@ namespace ShippingApp.Controllers
         [Route("Order/all")]
         public IActionResult AllOrders()
         {
-            IEnumerable<OrderModel> orders = _orderService.GetAllOrders();
+            IEnumerable<OrderModel> orders = _orderService.ReadAll();
             return View("All", orders);
         }
 
         [Route("Order/delete/{id}")]
         public IActionResult DeleteOrder(long Id)
         {
-            var order = _orderService.GetOrderById(Id);
+            var order = _orderService.ReadOne(Id);
 
-            _orderService.DeleteOrderById(Id);
+            _orderService.Delete(Id);
 
             return View("Deleted", order);
         }
@@ -89,14 +89,14 @@ namespace ShippingApp.Controllers
         [Route("Order/editor/{id}")]
         public IActionResult OrderEditor(long Id)
         {
-            var order = _orderService.GetOrderById(Id);
+            var order = _orderService.ReadOne(Id);
             return View("Editor", order);
         }
 
         [Route("Order/edit/{id}")]
         public IActionResult EditOrder(long Id, OrderModel Order)
         {
-            _orderService.UpdateOrderById(Id, Order);
+            _orderService.Update(Id, Order);
 
             return View("Edited", Order);
         }
