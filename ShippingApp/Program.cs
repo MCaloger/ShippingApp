@@ -12,7 +12,7 @@ builder.Services.AddDbContext<DataContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext"))
 );
 
-builder.Services.AddScoped<OrderService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
     
 var app = builder.Build();
 
