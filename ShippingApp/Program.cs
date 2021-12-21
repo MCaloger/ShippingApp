@@ -10,10 +10,12 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<DataContext>(options =>
   options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext"))
-);
+); 
 
 builder.Services.AddScoped<IOrderService, OrderService>();
-    
+builder.Services.AddScoped<SessionService>();
+builder.Services.AddScoped<UserService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,6 +32,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
 
     var context = services.GetRequiredService<DataContext>();
+
     context.Database.EnsureCreated();
 }
 
@@ -44,3 +47,5 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/");
 
 app.Run();
+
+

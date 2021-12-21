@@ -7,7 +7,7 @@ namespace ShippingApp.Models
         [Key]
         public long OrderId { get; set; }
         
-        public UserModel? Customer { get; set; }
+        public virtual UserModel? Customer { get; set; }
         public string Description { get; set; }
         public Boolean IsComplete { get; set; }
 

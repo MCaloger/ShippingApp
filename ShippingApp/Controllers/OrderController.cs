@@ -56,6 +56,7 @@ namespace ShippingApp.Controllers
         /// <param name="Order"></param>
         /// <returns>View with success page</returns>
         [Route("Order/create")]
+        [HttpPost]
         public IActionResult Create(OrderModel Order)
         {
             OrderModel NewOrder = _orderService.Create(Order);
