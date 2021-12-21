@@ -15,6 +15,11 @@ namespace ShippingApp.Controllers
             this._sessionService = sessionService;
         }
 
+
+        /// <summary>
+        /// Returns fdefault user page
+        /// </summary>
+        /// <returns></returns>
         [Route("/User/")]
         [HttpGet]
         public IActionResult Index()
@@ -29,6 +34,10 @@ namespace ShippingApp.Controllers
             }         
         }
 
+        /// <summary>
+        /// Login page
+        /// </summary>
+        /// <returns>View</returns>
         [Route("User/login")]
         [HttpGet]
         public IActionResult Login()
@@ -36,6 +45,11 @@ namespace ShippingApp.Controllers
             return View("Login");
         }
 
+        /// <summary>
+        /// Generate session
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [Route("User/session")]
         [HttpPost]
         public IActionResult RequestSession(UserModel user)
@@ -64,6 +78,10 @@ namespace ShippingApp.Controllers
             return View("Failure");
         }
 
+        /// <summary>
+        /// Log out and invalidate cookie
+        /// </summary>
+        /// <returns></returns>
         [Route("User/logout")]
         public IActionResult LogOut()
         {
@@ -75,6 +93,10 @@ namespace ShippingApp.Controllers
             return View("LogOut");
         }
 
+        /// <summary>
+        /// example user creation
+        /// </summary>
+        /// <returns></returns>
         [Route("User/example")]
         public IActionResult Example()
         {
