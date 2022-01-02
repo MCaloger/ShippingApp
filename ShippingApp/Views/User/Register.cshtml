@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model ShippingApp.Models.UserModel
+
+<h1>Register</h1>
+
+<form method="POST" action="/user/registration">
+    <div>
+        @Html.LabelFor(m => m.Email)
+        @Html.EditorFor(m => m.Email)
+    </div>
+    
+    <div>@Html.LabelFor(m => m.Password)
+    @Html.EditorFor(m => m.Password)</div>
+
+    <div>@Html.LabelFor(m => m.Password)
+    @Html.EditorFor(m => m.Password)</div>
+    
+
+    <div>@Html.LabelFor(m => m.FirstName)
+    @Html.EditorFor(m => m.FirstName)</div>
+    
+
+    <div>@Html.LabelFor(m => m.LastName)
+    @Html.EditorFor(m => m.LastName)</div>
+    
+
+    <div>@Html.LabelFor(m => m.Address)
+    @Html.EditorFor(m => m.Address)</div>
+    
+
+    <div>@Html.LabelFor(m => m.City)
+    @Html.EditorFor(m => m.City)</div>
+    
+
+    <div>@Html.LabelFor(m => m.PostalCode)
+    @Html.EditorFor(m => m.PostalCode)</div>
+
+    <div>
+        <button>Submit</button>
+    </div>
+    
+</form>

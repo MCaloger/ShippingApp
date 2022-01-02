@@ -40,9 +40,24 @@ namespace ShippingApp.Controllers
         /// <returns>View</returns>
         [Route("User/login")]
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult LoginForm()
         {
             return View("Login");
+        }
+
+        [Route("User/register")]
+        [HttpGet]
+        public IActionResult RegisterForm()
+        {
+            return View("Register");
+        }
+
+        [Route("User/registration")]
+        [HttpPost]
+        public IActionResult Register(UserModel user)
+        {
+            _userService.InternalCreateUser(user);
+            return View("Registration");
         }
 
         /// <summary>

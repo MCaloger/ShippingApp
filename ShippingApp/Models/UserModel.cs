@@ -17,11 +17,7 @@ namespace ShippingApp.Models
         public string? ProfileImage { get; set; }
         public Boolean? IsAdmin { get; set; }
 
-        public List<SessionModel> Sessions;
-        public List<OrderModel> Orders;
-        private ILazyLoader LazyLoader { get; set; }
-
-        protected UserModel()
+        public UserModel()
         {
 
 
