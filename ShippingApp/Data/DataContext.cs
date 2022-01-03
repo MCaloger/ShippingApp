@@ -7,10 +7,11 @@ namespace ShippingApp.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
-
         }
 
         public DbSet<OrderModel> Orders { get; set; }
-        public DbSet<UserModel> users { get; set; }
+        public DbSet<UserModel> Users { get; set; }
+        public DbSet<SessionModel> Sessions { get; set; }
+        public DbSet<RequestModel> Requests { get; set; }
     }
 }
