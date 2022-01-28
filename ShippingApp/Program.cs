@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using ShippingApp.Data;
 using Microsoft.Extensions.Configuration;
 using ShippingApp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

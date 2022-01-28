@@ -42,6 +42,7 @@ namespace ShippingApp.Controllers
         [HttpGet]
         public IActionResult LoginForm()
         {
+            ViewBag.hideAuth = true;
             return View("Login");
         }
 
@@ -85,6 +86,7 @@ namespace ShippingApp.Controllers
                     _sessionService.CreateSession(session);
 
                     HttpContext.Response.Cookies.Append("session_token", token);
+                    
                     return View("Success");
                 }
                 
@@ -104,7 +106,7 @@ namespace ShippingApp.Controllers
             {
                 HttpContext.Response.Cookies.Delete("session_token");
             }
-
+            ViewBag.hideAuth = true;
             return View("LogOut");
         }
 
