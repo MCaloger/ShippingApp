@@ -1,9 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using ShippingApp.Services
+@inject SessionService _sessionService;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ShippingApp</title>
+    <title>Escargo</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ShippingApp.styles.css" asp-append-version="true" />
@@ -26,10 +29,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">User</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            @if(ViewBag.hideAuth != true)
+                            {
+                                @if (_sessionService.GetCurrentUserBySessionToken(Context.Request.Cookies["session_token"]) != null)
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="LogOut">Log Out</a>
+                                } else
+                                {
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Login">Log In</a>
+                                }
+                            }
+                            
+                            
                         </li>
                     </ul>
                 </div>
