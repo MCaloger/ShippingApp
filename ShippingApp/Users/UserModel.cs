@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
+using System.ComponentModel.DataAnnotations;
 
 namespace ShippingApp.Models
 {
@@ -6,6 +7,8 @@ namespace ShippingApp.Models
     {
         [System.ComponentModel.DataAnnotations.Key]
         public long? UserId { get; set; }
+
+        [Required]
         public string? Email { get; set; }
         public string? Password { get; set; }
         public string? FirstName { get; set; }
