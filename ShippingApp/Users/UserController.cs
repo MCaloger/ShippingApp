@@ -110,6 +110,38 @@ namespace ShippingApp.Controllers
             return View("LogOut");
         }
 
+        [Route("User/Create")]
+        [HttpGet]
+        public IActionResult UserCreator()
+        {
+            string? sessionCookie = HttpContext.Request.Cookies["session_token"];
+            if (sessionCookie != null)
+            {
+                UserModel? user = _sessionService.GetCurrentUserBySessionToken(sessionCookie);
+
+                if(user.IsAdmin == true)
+                {
+                    return View("Create");
+                } else
+                {
+                    return View("Failure");
+                }
+                
+            }
+            else
+            {
+                return View("Failure");
+            }
+        }
+
+        [Route("User/Create")]
+        [HttpPost]
+        public IActionResult UserCreate(UserModel user)
+        {
+            _userService.InternalCreateUser(user);
+            return View(user);
+        }
+
         /// <summary>
         /// example user creation
         /// </summary>
