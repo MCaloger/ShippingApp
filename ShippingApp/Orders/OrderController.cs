@@ -10,10 +10,12 @@ namespace ShippingApp.Controllers
         /// Injected order service
         /// </summary>
         IOrderService _orderService;
+        SessionService _sessionService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, SessionService sessionService)
         {
             _orderService = orderService;
+            _sessionService = sessionService;
         }
 
         /// <summary>
@@ -73,8 +75,15 @@ namespace ShippingApp.Controllers
         [Route("Order/all")]
         public IActionResult AllOrders()
         {
-            IEnumerable<OrderModel> orders = _orderService.ReadAll();
-            return View("All", orders);
+            if(_sessionService.GetCurrentUserBySessionToken(Request.Cookies["session_token"]).IsAdmin == true)
+            {
+                IEnumerable<OrderModel> orders = _orderService.ReadAll();
+                return View("All", orders);
+            } else
+            {
+                return Redirect("/Orders");
+            }
+            
         }
 
         [Route("Order/delete/{id}")]
