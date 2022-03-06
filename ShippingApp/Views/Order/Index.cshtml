@@ -5,6 +5,18 @@
 @{
 }
 
+@model IEnumerable<ShippingApp.Models.OrderModel>
+
 <h1>Orders</h1>
 <p><a href="/order/new">Create</a></p>
 <p><a href="/order/all">All Orders</a></p>
+
+<hr />
+
+@foreach (var item in Model)
+{
+    <div>
+        <a href=@string.Format("/order/o/{0}", @item.OrderId)>@item.OrderId</a> @item.Description
+        <hr />
+    </div>
+}

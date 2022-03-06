@@ -67,6 +67,12 @@ namespace ShippingApp.Services
         {
 
             SessionModel? foundSession = _dataContext.Sessions.Where(sess => sess.SessionToken == sessionToken).FirstOrDefault();
+            
+            if(foundSession == null)
+            {
+                return null;
+            }
+            
             if(foundSession.Active)
             {
                 _dataContext.Entry(foundSession).Reference(user => user.User).Load();

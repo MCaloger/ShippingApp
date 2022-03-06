@@ -42,6 +42,7 @@ namespace ShippingApp.Controllers
         [HttpGet]
         public IActionResult LoginForm()
         {
+            ViewBag.hideAuth = true;
             return View("Login");
         }
 
@@ -85,6 +86,7 @@ namespace ShippingApp.Controllers
                     _sessionService.CreateSession(session);
 
                     HttpContext.Response.Cookies.Append("session_token", token);
+                    
                     return View("Success");
                 }
                 
@@ -104,8 +106,40 @@ namespace ShippingApp.Controllers
             {
                 HttpContext.Response.Cookies.Delete("session_token");
             }
-
+            ViewBag.hideAuth = true;
             return View("LogOut");
+        }
+
+        [Route("User/Create")]
+        [HttpGet]
+        public IActionResult UserCreator()
+        {
+            string? sessionCookie = HttpContext.Request.Cookies["session_token"];
+            if (sessionCookie != null)
+            {
+                UserModel? user = _sessionService.GetCurrentUserBySessionToken(sessionCookie);
+
+                if(user.IsAdmin == true)
+                {
+                    return View("Create");
+                } else
+                {
+                    return View("Failure");
+                }
+                
+            }
+            else
+            {
+                return View("Failure");
+            }
+        }
+
+        [Route("User/Create")]
+        [HttpPost]
+        public IActionResult UserCreate(UserModel user)
+        {
+            _userService.InternalCreateUser(user);
+            return View(user);
         }
 
         /// <summary>

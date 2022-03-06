@@ -10,10 +10,12 @@ namespace ShippingApp.Controllers
         /// Injected order service
         /// </summary>
         IOrderService _orderService;
+        SessionService _sessionService;
 
-        public OrderController(IOrderService orderService)
+        public OrderController(IOrderService orderService, SessionService sessionService)
         {
             _orderService = orderService;
+            _sessionService = sessionService;
         }
 
         /// <summary>
@@ -23,7 +25,9 @@ namespace ShippingApp.Controllers
         [Route("Order/")]
         public IActionResult Index()
         {
-            return View("Index");
+            UserModel user = _sessionService.GetCurrentUserBySessionToken(Request.Cookies["session_token"]);
+            List<OrderModel> orders = _orderService.ReadOwned(user);
+            return View("Index", orders);
         }
 
 
@@ -59,10 +63,13 @@ namespace ShippingApp.Controllers
         [HttpPost]
         public IActionResult Create(OrderModel Order)
         {
-            OrderModel NewOrder = _orderService.Create(Order);
-            var newOrder = _orderService.ReadOne(NewOrder.OrderId);
+            UserModel Customer = _sessionService.GetCurrentUserBySessionToken(Request.Cookies["session_token"]);
+            Order.Customer = Customer;
+           
+            OrderModel ReturnedOrder = _orderService.Create(Order);
+            var NewOrder = _orderService.ReadOne(ReturnedOrder.OrderId);
 
-            return View("Created", newOrder);
+            return View("Created", NewOrder);
             
         }
 
@@ -73,8 +80,15 @@ namespace ShippingApp.Controllers
         [Route("Order/all")]
         public IActionResult AllOrders()
         {
-            IEnumerable<OrderModel> orders = _orderService.ReadAll();
-            return View("All", orders);
+            if (_sessionService.GetCurrentUserBySessionToken(Request.Cookies["session_token"]).IsAdmin == true)
+            {
+                IEnumerable<OrderModel> orders = _orderService.ReadAll();
+                return View("All", orders);
+            } else
+            {
+                return Redirect("../Order");
+            }
+            
         }
 
         [Route("Order/delete/{id}")]
