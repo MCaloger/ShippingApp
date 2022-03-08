@@ -4,6 +4,14 @@
 @{
 }
 
+@using ShippingApp.Services
+@inject SessionService _sessionService;
+
 @model ShippingApp.Models.UserModel
 
 <p>Hello @Model.Email</p>
+
+@if (_sessionService.GetCurrentUserBySessionToken(Context.Request.Cookies["session_token"]).IsAdmin == true)
+{
+    <a class="nav-link text-dark" href="/user/create">Create User</a>
+} 

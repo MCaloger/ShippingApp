@@ -25,9 +25,19 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
-                        </li>
+                        
+                        @if(_sessionService.GetCurrentUserBySessionToken(Context.Request.Cookies["session_token"]) != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Index">Order</a>
+                            </li>
+
+                            @if (_sessionService.GetCurrentUserBySessionToken(Context.Request.Cookies["session_token"]).IsAdmin == true)
+                            {
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">User</a>
+                            }
+                        }
+                        
                         <li class="nav-item">
                             @if(ViewBag.hideAuth != true)
                             {
